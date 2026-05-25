@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Especialidades · Hoje na Clínica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:#F5E6B0;--gold-dim:#8B6914;
+  --black:#080808;--black2:#0F0F0F;--black3:#161616;--black4:#1E1E1E;
+  --cream:#F5ECD7;--muted:#7A6E5F;
+  --border:rgba(201,168,76,0.18);--border2:rgba(201,168,76,0.35);
+  --green:#22C55E;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh;padding:40px 20px;}
+
+.page-head{text-align:center;margin-bottom:48px;}
+.eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;color:var(--gold);border:1px solid var(--border2);padding:6px 20px;border-radius:2px;display:inline-block;margin-bottom:16px;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,7vw,56px);font-weight:700;color:#fff;line-height:1;}
+.page-title em{font-style:italic;color:var(--gold2);}
+.page-sub{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.7;}
+
+.date-bar{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:32px;flex-wrap:wrap;}
+.date-pill{background:var(--black3);border:1px solid var(--border2);border-radius:2px;padding:10px 20px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.counter{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.counter strong{color:var(--gold2);}
+
+.admin-panel{max-width:800px;margin:0 auto 40px;background:var(--black2);border:1px solid var(--border);border-radius:2px;overflow:hidden;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+.admin-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold);}
+.admin-arrow{color:var(--gold);transition:transform .3s;font-size:12px;}
+.admin-arrow.open{transform:rotate(180deg);}
+.admin-body{padding:20px;display:none;}
+.admin-body.open{display:block;}
+.admin-note{font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.6;padding:10px 14px;background:rgba(201,168,76,.05);border-left:2px solid var(--gold);}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+.toggle-item{display:flex;align-items:center;gap:10px;background:var(--black3);border:1px solid var(--border);border-radius:2px;padding:10px 12px;cursor:pointer;transition:all .25s;user-select:none;}
+.toggle-item:hover{border-color:var(--border2);}
+.toggle-item.active{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05);}
+.toggle-icon{font-size:18px;flex-shrink:0;}
+.toggle-name{font-size:11px;color:rgba(255,255,255,.7);line-height:1.3;}
+.toggle-item.active .toggle-name{color:#fff;}
+.toggle-check{margin-left:auto;width:16px;height:16px;border-radius:2px;flex-shrink:0;border:1px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .2s;}
+.toggle-item.active .toggle-check{background:var(--green);border-color:var(--green);color:#fff;}
+.admin-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.btn-sm{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;padding:8px 16px;border-radius:2px;cursor:pointer;transition:all .25s;}
+.btn-all{background:rgba(201,168,76,.1);border:1px solid var(--border2);color:var(--gold);}
+.btn-all:hover{background:rgba(201,168,76,.2);}
+.btn-none{background:var(--black3);border:1px solid var(--border);color:var(--muted);}
+.btn-none:hover{border-color:var(--border2);color:var(--cream);}
+.btn-apply{background:linear-gradient(135deg,var(--gold-dim),var(--gold));border:none;color:var(--black);font-weight:500;margin-left:auto;}
+.btn-apply:hover{box-shadow:0 4px 16px rgba(201,168,76,.3);transform:translateY(-1px);}
+
+.esp-wrap{max-width:800px;margin:0 auto;}
+.filter-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.ftab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;padding:7px 16px;border-radius:2px;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:transparent;transition:all .25s;}
+.ftab.active{background:rgba(201,168,76,.1);border-color:var(--border2);color:var(--gold);}
+
+.esp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;border:1px solid var(--border);}
+.esp-card{padding:20px 14px;text-align:center;background:var(--black2);position:relative;overflow:hidden;transition:all .35s;}
+.esp-card.available{cursor:default;}
+.esp-card.available::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.esp-card.available:hover{background:var(--black3);}
+.esp-card.unavailable{background:rgba(8,8,8,.8);opacity:.45;filter:grayscale(1);}
+.esp-card.unavailable .esp-badge{display:flex;}
+.esp-card.hidden{display:none;}
+.esp-icon{font-size:26px;margin-bottom:8px;}
+.esp-name{font-size:11px;color:rgba(255,255,255,.75);line-height:1.4;margin-bottom:6px;}
+.esp-status{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;padding:3px 8px;border-radius:2px;display:inline-block;}
+.available .esp-status{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);}
+.unavailable .esp-status{background:rgba(107,114,128,.1);border:1px solid rgba(107,114,128,.2);color:#6B7280;}
+.esp-badge{position:absolute;top:8px;right:8px;background:rgba(107,114,128,.15);border:1px solid rgba(107,114,128,.2);border-radius:2px;padding:2px 6px;font-size:8px;color:#6B7280;letter-spacing:1px;display:none;align-items:center;gap:3px;}
+.empty{grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);font-size:13px;font-style:italic;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:40px 0;}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="eyebrow">✦ Cartão de Cavaleiro Digital</div>
+  <h1 class="page-title">Especialidades <em>Hoje</em></h1>
+  <p class="page-sub">Veja quais médicos especialistas estão atendendo hoje na clínica</p>
+</div>
+
+<div style="max-width:800px;margin:0 auto;">
+  <div class="date-bar">
+    <div class="date-pill"><span class="live-dot"></span><span id="today-label">Carregando...</span></div>
+    <div class="counter"><strong id="available-count">0</strong> disponível hoje · <span id="unavailable-count">0</span> indisponíveis</div>
+  </div>
+
+  <div class="admin-panel">
+    <div class="admin-header" onclick="toggleAdmin()">
+      <span class="admin-title">⚙ PAINEL DA CLÍNICA — DEFINIR DISPONIBILIDADE DE HOJE</span>
+      <span class="admin-arrow" id="admin-arrow">▼</span>
+    </div>
+    <div class="admin-body" id="admin-body">
+      <div class="admin-note">Marque as especialidades que estão atendendo <strong>hoje</strong>. As desmarcadas aparecem como "Indisponível hoje" para os pacientes.</div>
+      <div class="admin-grid" id="admin-grid"></div>
+      <div class="admin-actions">
+        <button class="btn-sm btn-all" onclick="selectAll()">✦ MARCAR TODOS</button>
+        <button class="btn-sm btn-none" onclick="selectNone()">DESMARCAR TODOS</button>
+        <button class="btn-sm btn-apply" onclick="applyChanges()">✦ APLICAR AGORA</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="esp-wrap">
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="filterCards('all',this)">Todos</button>
+      <button class="ftab" onclick="filterCards('available',this)">✦ Disponíveis hoje</button>
+      <button class="ftab" onclick="filterCards('unavailable',this)">Indisponíveis</button>
+    </div>
+    <div class="esp-grid" id="esp-grid"></div>
+  </div>
+
+  <div class="rule"></div>
+  <p style="text-align:center;font-size:11px;color:var(--muted);font-style:italic;">✦ Disponibilidade atualizada diariamente · Agendamentos via WhatsApp</p>
+</div>
+
+<script>
+const specialties = [
+  {icon:'🫀',name:'Cardiologia',available:false},
+  {icon:'🧠',name:'Neurologia',available:false},
+  {icon:'🦴',name:'Ortopedia',available:true},
+  {icon:'👁️',name:'Oftalmologia',available:false},
+  {icon:'🌸',name:'Ginecologia',available:true},
+  {icon:'🍼',name:'Pediatria',available:true},
+  {icon:'🦷',name:'Odontologia',available:false},
+  {icon:'🧪',name:'Análises Clínicas',available:true},
+  {icon:'🩻',name:'Radiologia',available:false},
+  {icon:'💊',name:'Clínica Geral',available:true},
+  {icon:'🧬',name:'Endocrinologia',available:false},
+  {icon:'🫁',name:'Pneumologia',available:true},
+  {icon:'🩸',name:'Hematologia',available:false},
+  {icon:'🦠',name:'Infectologia',available:false},
+  {icon:'🧘',name:'Psiquiatria / Psicologia',available:true},
+  {icon:'🏃',name:'Medicina Esportiva',available:false},
+  {icon:'🧴',name:'Dermatologia',available:true},
+  {icon:'👂',name:'Otorrinolaringologia',available:false},
+  {icon:'🦵',name:'Fisioterapia',available:true},
+  {icon:'💉',name:'Urologia',available:false},
+];
+
+const days=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const months=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const now=new Date();
+document.getElementById('today-label').textContent=`${days[now.getDay()]}, ${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
+
+let currentFilter='all';
+
+function renderAdminGrid(){
+  document.getElementById('admin-grid').innerHTML=specialties.map((s,i)=>`
+    <div class="toggle-item ${s.available?'active':''}" onclick="toggleItem(${i})">
+      <span class="toggle-icon">${s.icon}</span>
+      <span class="toggle-name">${s.name}</span>
+      <span class="toggle-check">${s.available?'✓':''}</span>
+    </div>`).join('');
+}
+
+function toggleItem(i){specialties[i].available=!specialties[i].available;renderAdminGrid();}
+function selectAll(){specialties.forEach(s=>s.available=true);renderAdminGrid();}
+function selectNone(){specialties.forEach(s=>s.available=false);renderAdminGrid();}
+
+function applyChanges(){
+  renderDisplayGrid();updateCounter();
+  const btn=document.querySelector('.btn-apply');
+  btn.textContent='✓ APLICADO!';
+  setTimeout(()=>btn.textContent='✦ APLICAR AGORA',2000);
+}
+
+function renderDisplayGrid(){
+  const g=document.getElementById('esp-grid');
+  g.innerHTML=specialties.map(s=>{
+    const cls=s.available?'available':'unavailable';
+    const hidden=(currentFilter==='available'&&!s.available)||(currentFilter==='unavailable'&&s.available)?'hidden':'';
+    return `<div class="esp-card ${cls} ${hidden}">
+      <div class="esp-badge">— Hoje não</div>
+      <div class="esp-icon">${s.icon}</div>
+      <div class="esp-name">${s.name}</div>
+      <div class="esp-status">${s.available?'● Hoje':'○ Indisponível'}</div>
+    </div>`;
+  }).join('');
+  if(!g.querySelectorAll('.esp-card:not(.hidden)').length)
+    g.innerHTML+='<div class="empty">Nenhuma especialidade nesta categoria hoje.</div>';
+}
+
+function updateCounter(){
+  const av=specialties.filter(s=>s.available).length;
+  document.getElementById('available-count').textContent=av;
+  document.getElementById('unavailable-count').textContent=specialties.length-av;
+}
+
+function filterCards(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDisplayGrid();
+}
+
+function toggleAdmin(){
+  document.getElementById('admin-body').classList.toggle('open');
+  document.getElementById('admin-arrow').classList.toggle('open');
+}
+
+renderAdminGrid();renderDisplayGrid();updateCounter();
+</script>
+</body>
+</html>
